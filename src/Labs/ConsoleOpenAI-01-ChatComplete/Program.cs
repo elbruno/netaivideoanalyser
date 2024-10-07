@@ -10,12 +10,6 @@ OpenAIClient client = new OpenAIClient(apiKey: openai_key);
 
 var chat = client.GetChatClient("gpt-4o-mini");
 
-var response = chat.CompleteChatStreamingAsync("write a 4 paragraph fun story about a .NET Cloud Advocate");
+var response = await chat.CompleteChatAsync("What is the capital of the United States?");
 
-
-await foreach (var item in response)
-{
-    if(item.ContentUpdate.Count > 0)
-        Console.Write(item.ContentUpdate[0].Text);
-}
-
+Console.WriteLine(response.Value.Content[0].Text);

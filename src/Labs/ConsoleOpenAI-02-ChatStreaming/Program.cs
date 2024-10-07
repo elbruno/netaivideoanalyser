@@ -15,7 +15,7 @@ var response = chat.CompleteChatStreamingAsync("write a 4 paragraph fun story ab
 
 await foreach (var item in response)
 {
-    if(item.ContentUpdate.Count > 0)
+    if (item.ContentUpdate.Count > 0)
         Console.Write(item.ContentUpdate[0].Text);
 }
 
