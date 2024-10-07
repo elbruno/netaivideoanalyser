@@ -23,7 +23,7 @@ var response = chat.CompleteChatStreamingAsync(messages);
 
 await foreach (var item in response)
 {
-    if(item.ContentUpdate.Count > 0)
+    if (item.ContentUpdate.Count > 0)
         Console.Write(item.ContentUpdate[0].Text);
 }
 
