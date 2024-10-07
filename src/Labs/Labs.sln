@@ -5,15 +5,17 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VideoAnalyser01", "VideoAnalyser01\VideoAnalyser01.csproj", "{85D1886D-8937-4771-864B-DBB5468731C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{FCD1648E-BC14-4680-90A9-760933CBDE99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{FCD1648E-BC14-4680-90A9-760933CBDE99}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OpenCV", "OpenCV", "{A38DDACB-0F12-4ADA-B9F4-50D83F5385A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCV-CameraSample01", "OpenCV-CameraSample01\OpenCV-CameraSample01.csproj", "{3930E29F-E3A9-4246-9B27-ABD89720B3F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCV-CameraSample01", "OpenCV-CameraSample01\OpenCV-CameraSample01.csproj", "{3930E29F-E3A9-4246-9B27-ABD89720B3F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCV-CameraSample-02-FPS", "OpenCV-CameraSample-02-FPS\OpenCV-CameraSample-02-FPS.csproj", "{015FDF1C-9684-4496-95E4-BF1AB5CD2CF2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCV-CameraSample-02-FPS", "OpenCV-CameraSample-02-FPS\OpenCV-CameraSample-02-FPS.csproj", "{015FDF1C-9684-4496-95E4-BF1AB5CD2CF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "openCV-Camera-03-IPCam", "openCV-Camera-03-IPCam\openCV-Camera-03-IPCam.csproj", "{754DCB6F-0924-4CBD-8F8B-95A83760ECF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "openCV-Camera-03-IPCam", "openCV-Camera-03-IPCam\openCV-Camera-03-IPCam.csproj", "{754DCB6F-0924-4CBD-8F8B-95A83760ECF0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCV-Camera-04-BlurFaces", "OpenCV-Camera-04-BlurFaces\OpenCV-Camera-04-BlurFaces.csproj", "{64F0E55C-3A81-4A5B-924F-8E2D810EAF83}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{754DCB6F-0924-4CBD-8F8B-95A83760ECF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{754DCB6F-0924-4CBD-8F8B-95A83760ECF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{754DCB6F-0924-4CBD-8F8B-95A83760ECF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64F0E55C-3A81-4A5B-924F-8E2D810EAF83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64F0E55C-3A81-4A5B-924F-8E2D810EAF83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64F0E55C-3A81-4A5B-924F-8E2D810EAF83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64F0E55C-3A81-4A5B-924F-8E2D810EAF83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +55,7 @@ Global
 		{3930E29F-E3A9-4246-9B27-ABD89720B3F3} = {A38DDACB-0F12-4ADA-B9F4-50D83F5385A4}
 		{015FDF1C-9684-4496-95E4-BF1AB5CD2CF2} = {A38DDACB-0F12-4ADA-B9F4-50D83F5385A4}
 		{754DCB6F-0924-4CBD-8F8B-95A83760ECF0} = {A38DDACB-0F12-4ADA-B9F4-50D83F5385A4}
+		{64F0E55C-3A81-4A5B-924F-8E2D810EAF83} = {A38DDACB-0F12-4ADA-B9F4-50D83F5385A4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {74C2B8BC-3EA8-4887-9C4D-BDF44232B449}
