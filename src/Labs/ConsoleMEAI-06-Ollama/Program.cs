@@ -6,20 +6,9 @@ using Microsoft.Extensions.AI;
 //////////////////////////////////////////////////////
 
 // main settings
-var numberOfFrames = 5;
-var systemPrompt = @"You are a useful assistant. When you receive a group of images, they are frames of a unique video.";
+var numberOfFrames = 3;
 
 var videoFileName = $"videos/firetruck.mp4";
-// var videoFileName = $"videos/racoon.mp4";
-var userPrompt = @"The following frames represets a video. Describe the video.";
-
-//var videoFileName = $"videos/insurance_v3.mp4";
-//var userPrompt = @"You are an expert in evaluating car damage from car accidents for auto insurance reporting. 
-//Create an incident report for the accident shown in the video with 3 sections. 
-//- Section 1 will include the car details (license plate, car make, car model, approximant model year, color, mileage).
-//- Section 2 list the car damage, per damage in a list.
-//- Section 3 will only include exactly 6 sentence description of the car damage.";
-
 
 // Create or clear the "data" folder and the "data/frames" folder
 string dataFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "data");
@@ -41,11 +30,8 @@ while (video.IsOpened())
     var frame = new Mat();
     if (!video.Read(frame) || frame.Empty())
         break;
-    // resize the frame to half of its size if the with is greater than 800
-    if (frame.Width > 800)
-    {
-        Cv2.Resize(frame, frame, new OpenCvSharp.Size(frame.Width / 2, frame.Height / 2));
-    }
+    // resize the frame to half of its size
+    Cv2.Resize(frame, frame, new OpenCvSharp.Size(frame.Width / 2, frame.Height / 2));
     frames.Add(frame);
 }
 video.Release();
@@ -55,16 +41,15 @@ video.Release();
 //////////////////////////////////////////////////////
 
 
-IChatClient chatClient =
+IChatClient chatClientImageAnalyzer =
     new OllamaChatClient(new Uri("http://localhost:11434/"), "llava:7b");
+IChatClient chatClient =
+    new OllamaChatClient(new Uri("http://localhost:11434/"), "llama3.2");
 
-List<ChatMessage> messages =
-[
-    new ChatMessage(ChatRole.System, systemPrompt),
-    new ChatMessage(ChatRole.User, userPrompt),
-];
-
-// create the OpenAI files that represent the video frames
+Console.WriteLine("=============");
+Console.WriteLine("Start frame by frame analysis");
+Console.WriteLine("=============");
+List<string> imageAnalysisResponses = new();
 int step = (int)Math.Ceiling((double)frames.Count / numberOfFrames);
 for (int i = 0; i < frames.Count; i += step)
 {
@@ -74,11 +59,27 @@ for (int i = 0; i < frames.Count; i += step)
 
     // read the image bytes, create a new image content part and add it to the messages
     AIContent aic = new ImageContent(File.ReadAllBytes(framePath), "image/jpeg");
-    var message = new ChatMessage(ChatRole.User, [aic]);
-    messages.Add(message);
+    List<ChatMessage> messages =
+    [
+        new ChatMessage(ChatRole.User, $"The image represents a frame of a video. Describe the image. Include the frame number at the beginning of the description: [{i}]"),
+        new ChatMessage(ChatRole.User, [aic])
+     ];
+    // send the messages to the assistant
+    var imageAnalysis = await chatClientImageAnalyzer.CompleteAsync(messages);
+    var imageAnalysisResponse = $"Frame [{i}]\n{imageAnalysis.Message.Text}\n";
+    imageAnalysisResponses.Add(imageAnalysisResponse);
+
+    Console.WriteLine(imageAnalysisResponse);
 }
 
+Console.WriteLine("=============");
+Console.WriteLine("Start video analysis");
+Console.WriteLine("=============");
+var imageAnalysisResponseCollection = string.Join("\n===\n", imageAnalysisResponses);
+
+var userPrompt = $"The following texts represets a video analysis from different frames from the video. Using that frames description, describe the video.\n{imageAnalysisResponseCollection}";
+
 // send the messages to the assistant
-var response = await chatClient.CompleteAsync(messages);
+var response = await chatClient.CompleteAsync(userPrompt);
 
 Console.WriteLine(response.Message);
