@@ -2,7 +2,7 @@
 using OpenCvSharp;
 using OpenAI;
 using Microsoft.Extensions.AI;
-using System;
+
 
 //////////////////////////////////////////////////////
 /// VIDEO
@@ -12,8 +12,8 @@ using System;
 var numberOfFrames = 15;
 var systemPrompt = @"You are a useful assistant. When you receive a group of images, they are frames of a unique video.";
 
-//var videoFileName = $"videos/firetruck.mp4";
-var videoFileName = $"videos/racoon.mp4";
+var videoFileName = $"videos/firetruck.mp4";
+// var videoFileName = $"videos/racoon.mp4";
 var userPrompt = @"The following frames represets a video. Describe the video.";
 
 //var videoFileName = $"videos/insurance_v3.mp4";
@@ -54,27 +54,21 @@ while (video.IsOpened())
 video.Release();
 
 //////////////////////////////////////////////////////
-/// OPENAI
+/// Microsoft.Extensions.AI
 //////////////////////////////////////////////////////
-#pragma warning disable OPENAI001 
 
 var config = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
 var openai_key = config["OPENAI_KEY"];
 
-//OpenAIClient openAIClient = new(openai_key);
-//ChatClient chatClient = openAIClient.GetChatClient("gpt-4o");
-
-
-IChatClient chatClient = new OpenAIClient(apiKey: openai_key)
+IChatClient chatClient = 
+    new OpenAIClient(apiKey: openai_key)
     .AsChatClient("gpt-4o-mini");
 
-List<Microsoft.Extensions.AI.ChatMessage> messages =
+List<ChatMessage> messages =
 [
-    new Microsoft.Extensions.AI.ChatMessage(ChatRole.System, systemPrompt),
-    new Microsoft.Extensions.AI.ChatMessage(ChatRole.User, userPrompt),
+    new ChatMessage(ChatRole.System, systemPrompt),
+    new ChatMessage(ChatRole.User, userPrompt),
 ];
-
-
 
 // create the OpenAI files that represent the video frames
 int step = (int)Math.Ceiling((double)frames.Count / numberOfFrames);
@@ -86,7 +80,7 @@ for (int i = 0; i < frames.Count; i += step)
 
     // read the image bytes, create a new image content part and add it to the messages
     AIContent aic = new ImageContent(File.ReadAllBytes(framePath), "image/jpeg");
-    var message = new Microsoft.Extensions.AI.ChatMessage(ChatRole.User, [aic]);
+    var message = new ChatMessage(ChatRole.User, [aic]);
     messages.Add(message);
 }
 

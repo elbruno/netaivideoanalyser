@@ -6,6 +6,7 @@
     <RootNamespace>ConsoleMEAI_04_VideoAnalyzer</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>800acdcf-5cbd-4658-bc19-f2c3727a0f97</UserSecretsId>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -17,6 +18,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+    <Content Include="..\videos\firetruck.mp4" Link="videos\firetruck.mp4">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\videos\insurance_v3.mp4" Link="videos\insurance_v3.mp4">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\videos\racoon.mp4" Link="videos\racoon.mp4">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
