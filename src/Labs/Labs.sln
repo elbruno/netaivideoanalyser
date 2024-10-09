@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Labs", "Labs", "{33A582E2-4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleMEAI-06-Ollama", "ConsoleMEAI-06-Ollama\ConsoleMEAI-06-Ollama.csproj", "{2BC812DF-B3C7-424D-9DB9-4692277B0678}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCV-Camera-05-PlayVideo", "OpenCV-Camera-05-PlayVideo\OpenCV-Camera-05-PlayVideo.csproj", "{A1FA0598-0480-42DA-8B33-A219B6F60382}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +91,10 @@ Global
 		{2BC812DF-B3C7-424D-9DB9-4692277B0678}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BC812DF-B3C7-424D-9DB9-4692277B0678}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BC812DF-B3C7-424D-9DB9-4692277B0678}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1FA0598-0480-42DA-8B33-A219B6F60382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1FA0598-0480-42DA-8B33-A219B6F60382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1FA0598-0480-42DA-8B33-A219B6F60382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1FA0598-0480-42DA-8B33-A219B6F60382}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,6 +112,7 @@ Global
 		{705DA136-69E6-422B-90E3-38BD22C1B7FC} = {F79ADDC0-A1A4-4C3A-90CD-D0982EA89A87}
 		{15ECD70E-A35E-491A-AFA1-0D99E489BF49} = {F79ADDC0-A1A4-4C3A-90CD-D0982EA89A87}
 		{2BC812DF-B3C7-424D-9DB9-4692277B0678} = {F79ADDC0-A1A4-4C3A-90CD-D0982EA89A87}
+		{A1FA0598-0480-42DA-8B33-A219B6F60382} = {A38DDACB-0F12-4ADA-B9F4-50D83F5385A4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {74C2B8BC-3EA8-4887-9C4D-BDF44232B449}
