@@ -39,6 +39,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Event", "Event", "{018B0B29
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleMEAI-05-GitHubModels", "ConsoleMEAI-05-GitHubModels\ConsoleMEAI-05-GitHubModels.csproj", "{DD3313B8-C63A-4E09-B8DA-2F538EAB39AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCV-Camera-06-VideoSaveFrames", "OpenCV-Camera-06-VideoSaveFrames\OpenCV-Camera-06-VideoSaveFrames.csproj", "{4EF2E09E-4ED8-4380-9DCA-8D311B135A2B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,10 @@ Global
 		{DD3313B8-C63A-4E09-B8DA-2F538EAB39AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD3313B8-C63A-4E09-B8DA-2F538EAB39AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD3313B8-C63A-4E09-B8DA-2F538EAB39AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4EF2E09E-4ED8-4380-9DCA-8D311B135A2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EF2E09E-4ED8-4380-9DCA-8D311B135A2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EF2E09E-4ED8-4380-9DCA-8D311B135A2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EF2E09E-4ED8-4380-9DCA-8D311B135A2B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,6 +121,7 @@ Global
 		{2BC812DF-B3C7-424D-9DB9-4692277B0678} = {F79ADDC0-A1A4-4C3A-90CD-D0982EA89A87}
 		{A1FA0598-0480-42DA-8B33-A219B6F60382} = {A38DDACB-0F12-4ADA-B9F4-50D83F5385A4}
 		{DD3313B8-C63A-4E09-B8DA-2F538EAB39AE} = {F79ADDC0-A1A4-4C3A-90CD-D0982EA89A87}
+		{4EF2E09E-4ED8-4380-9DCA-8D311B135A2B} = {A38DDACB-0F12-4ADA-B9F4-50D83F5385A4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {74C2B8BC-3EA8-4887-9C4D-BDF44232B449}
