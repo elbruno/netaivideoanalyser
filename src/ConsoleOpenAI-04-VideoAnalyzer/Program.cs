@@ -1,10 +1,29 @@
 ﻿using Microsoft.Extensions.Configuration;
-using OpenAI;
 using OpenAI.Chat;
 using OpenCvSharp;
+using OpenAI;
 using System.ClientModel;
 
-var videoFileName = $"videos/racoon.mp4";
+
+//////////////////////////////////////////////////////
+/// VIDEO
+//////////////////////////////////////////////////////
+
+// main settings
+var numberOfFrames = 15;
+var systemPrompt = @"You are a useful assistant. When you receive a group of images, they are frames of a unique video.";
+
+//var videoFileName = $"videos/firetruck.mp4";
+//var videoFileName = $"videos/racoon.mp4";
+//var userPrompt = @"The following frames represets a video. Describe the video.";
+
+var videoFileName = $"videos/insurance_v3.mp4";
+var userPrompt = @"You are an expert in evaluating car damage from car accidents for auto insurance reporting. 
+Create an incident report for the accident shown in the video with 3 sections. 
+- Section 1 will include the car details (license plate, car make, car model, approximant model year, color, mileage).
+- Section 2 list the car damage, per damage in a list.
+- Section 3 will only include exactly 6 sentence description of the car damage.";
+
 
 // Create or clear the "data" folder and the "data/frames" folder
 string dataFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "data");
@@ -35,20 +54,16 @@ while (video.IsOpened())
 }
 video.Release();
 
+//////////////////////////////////////////////////////
+/// OPENAI
+//////////////////////////////////////////////////////
+#pragma warning disable OPENAI001 
+
 var config = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
 var openai_key = config["OPENAI_KEY"];
 
-
-var numberOfFrames = 15;
-var systemPrompt = @"You are a useful assistant. When you receive a group of images, they are frames of a unique video.";
-
-var userPrompt = @"The following frames represets a video. Describe the video.";
-
-
-// Create the OpenAI client
-var client = new OpenAIClient(openai_key);
-
-var chatClient = client.GetChatClient("gpt-4o-mini");
+OpenAIClient openAIClient = new(openai_key);
+ChatClient chatClient = openAIClient.GetChatClient("gpt-4o");
 
 List<ChatMessage> messages =
 [
