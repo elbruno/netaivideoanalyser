@@ -1,13 +1,6 @@
 ﻿using OpenCvSharp;
-using System;
-using System.Diagnostics;
 
-
-var systemPrompt = @"You are a useful assistant. When you receive a group of images, they are frames of a unique video.";
-
-//var videoFileName = $"videos/firetruck.mp4";
-var videoFileName = $"videos/racoon.mp4";
-
+var videoFileName = $"firetruck.mp4";
 
 // Create or clear the "data" folder and the "data/frames" folder
 string dataFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "data");
@@ -19,13 +12,17 @@ Directory.CreateDirectory(dataFolderPath);
 Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data/frames"));
 
 // video file
-string videoFile = Path.Combine(Directory.GetCurrentDirectory(), videoFileName);
+string videosFolder = FindVideosFolder(Directory.GetCurrentDirectory());
+string videoFile = Path.Combine(videosFolder, videoFileName);
+
+// print the video file location
+Console.WriteLine($"Video File: {videoFile}");
 
 // Open video file
 using var capture = new VideoCapture(videoFile);
 if (!capture.IsOpened())
 {
-    Console.WriteLine("Camera not found!");
+    Console.WriteLine($"File not found: {videoFile}");
     return;
 }
 
@@ -46,5 +43,32 @@ while (true)
     frame.SaveImage(frameFileName);
 
     // show in the console the frame file name
-    Console.WriteLine(frameFileName);
+    Console.WriteLine($"Saving frame FileName: {frameFileName}");
+}
+
+
+static string FindVideosFolder(string startDirectory)
+{
+    var currentDirectory = startDirectory;
+
+    while (true)
+    {
+        // display the current directory
+        Console.WriteLine($"Current Directory: {currentDirectory}");
+
+        var potentialVideos = Path.Combine(currentDirectory, "videos");
+        if (Directory.Exists(potentialVideos))
+        {
+            return potentialVideos;
+        }
+
+        var parentDirectory = Directory.GetParent(currentDirectory);
+        Console.WriteLine($"Parent Directory: {currentDirectory}");
+        if (parentDirectory == null)
+        {
+            throw new DirectoryNotFoundException("The 'videos' folder was not found in any parent directory.");
+        }
+
+        currentDirectory = parentDirectory.FullName;
+    }
 }
