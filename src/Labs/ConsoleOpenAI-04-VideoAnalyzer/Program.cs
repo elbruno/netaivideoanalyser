@@ -14,15 +14,15 @@ var numberOfFrames = 15;
 var systemPrompt = @"You are a useful assistant. When you receive a group of images, they are frames of a unique video.";
 
 //var videoFileName = $"videos/firetruck.mp4";
-var videoFileName = $"videos/racoon.mp4";
-var userPrompt = @"The following frames represets a video. Describe the video.";
+//var videoFileName = $"videos/racoon.mp4";
+//var userPrompt = @"The following frames represets a video. Describe the video.";
 
-//var videoFileName = $"videos/insurance_v3.mp4";
-//var userPrompt = @"You are an expert in evaluating car damage from car accidents for auto insurance reporting. 
-//Create an incident report for the accident shown in the video with 3 sections. 
-//- Section 1 will include the car details (license plate, car make, car model, approximant model year, color, mileage).
-//- Section 2 list the car damage, per damage in a list.
-//- Section 3 will only include exactly 6 sentence description of the car damage.";
+var videoFileName = $"videos/insurance_v3.mp4";
+var userPrompt = @"You are an expert in evaluating car damage from car accidents for auto insurance reporting. 
+Create an incident report for the accident shown in the video with 3 sections. 
+- Section 1 will include the car details (license plate, car make, car model, approximant model year, color, mileage).
+- Section 2 list the car damage, per damage in a list.
+- Section 3 will only include exactly 6 sentence description of the car damage.";
 
 
 // Create or clear the "data" folder and the "data/frames" folder

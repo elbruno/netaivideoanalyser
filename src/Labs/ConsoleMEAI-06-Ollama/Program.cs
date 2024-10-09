@@ -44,7 +44,7 @@ video.Release();
 IChatClient chatClientImageAnalyzer =
     new OllamaChatClient(new Uri("http://localhost:11434/"), "llava:7b");
 IChatClient chatClient =
-    new OllamaChatClient(new Uri("http://localhost:11434/"), "llama3.2");
+    new OllamaChatClient(new Uri("http://localhost:11434/"), "phi3.5");
 
 Console.WriteLine("=============");
 Console.WriteLine("Start frame by frame analysis");
