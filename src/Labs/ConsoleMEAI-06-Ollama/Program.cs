@@ -6,7 +6,7 @@ using Microsoft.Extensions.AI;
 //////////////////////////////////////////////////////
 
 // main settings
-var numberOfFrames = 3;
+var numberOfFrames = 10;
 
 var videoFileName = $"videos/firetruck.mp4";
 
@@ -44,11 +44,14 @@ video.Release();
 IChatClient chatClientImageAnalyzer =
     new OllamaChatClient(new Uri("http://localhost:11434/"), "llava:7b");
 IChatClient chatClient =
-    new OllamaChatClient(new Uri("http://localhost:11434/"), "phi3.5");
+    new OllamaChatClient(new Uri("http://localhost:11434/"), "llama3.2");
 
-Console.WriteLine("=============");
+Console.WriteLine("====================================================");
 Console.WriteLine("Start frame by frame analysis");
-Console.WriteLine("=============");
+Console.WriteLine("Number of frames: " + frames.Count);
+Console.WriteLine("====================================================");
+Console.WriteLine("");
+
 List<string> imageAnalysisResponses = new();
 int step = (int)Math.Ceiling((double)frames.Count / numberOfFrames);
 for (int i = 0; i < frames.Count; i += step)
@@ -61,24 +64,50 @@ for (int i = 0; i < frames.Count; i += step)
     AIContent aic = new ImageContent(File.ReadAllBytes(framePath), "image/jpeg");
     List<ChatMessage> messages =
     [
-        new ChatMessage(ChatRole.User, $"The image represents a frame of a video. Describe the image. Include the frame number at the beginning of the description: [{i}]"),
+        new ChatMessage(ChatRole.User, @$"The image represents a frame of a video. Describe the image in a single sentence. Frame Number: [{i}]
+
+In example:
+Frame Number: 0
+A view of a fire station with red garage doors. The sidewalk is empty, and there are yellow posts in front of the garage doors. Surrounding buildings are visible in the background, along with a clear blue sky.
+
+Frame Number: 1
+The same fire station is shown, but now a fire truck is partially visible, parked in front of the garage doors. The scene retains the same urban backdrop, with nearby buildings and trees.
+
+Frame Number: 2
+The fire truck is now seen moving out of the station and onto the street. The background features a tall black building and additional urban elements, including traffic signs and trees."),
         new ChatMessage(ChatRole.User, [aic])
      ];
     // send the messages to the assistant
     var imageAnalysis = await chatClientImageAnalyzer.CompleteAsync(messages);
-    var imageAnalysisResponse = $"Frame [{i}]\n{imageAnalysis.Message.Text}\n";
+    var imageAnalysisResponse = $"{imageAnalysis.Message.Text}\n";
     imageAnalysisResponses.Add(imageAnalysisResponse);
 
     Console.WriteLine(imageAnalysisResponse);
 }
 
-Console.WriteLine("=============");
+Console.WriteLine("====================================================");
+Console.WriteLine("Start build prompt");
+Console.WriteLine("====================================================");
+Console.WriteLine("");
+var imageAnalysisResponseCollection = string.Empty;
+
+foreach (var desc in imageAnalysisResponses)
+{
+    imageAnalysisResponseCollection += $"\n[FRAME ANALYSIS START]\n{desc}\n[FRAME ANALYSIS END]\n";
+}
+
+var userPrompt = $"The texts below represets a video analysis from different frames from the video. Using that frames description, describe the video. Do not describe individual frames, using the frames information infer the content of the video.\n{imageAnalysisResponseCollection}";
+
+// display the full user prompt 
+Console.WriteLine(userPrompt);
+Console.WriteLine("");
+
+Console.WriteLine("====================================================");
 Console.WriteLine("Start video analysis");
-Console.WriteLine("=============");
-var imageAnalysisResponseCollection = string.Join("\n===\n", imageAnalysisResponses);
+Console.WriteLine("====================================================");
+Console.WriteLine("");
 
-var userPrompt = $"The following texts represets a video analysis from different frames from the video. Using that frames description, describe the video.\n{imageAnalysisResponseCollection}";
-
+Console.WriteLine("ASSISTANT: ");
 // send the messages to the assistant
 var response = await chatClient.CompleteAsync(userPrompt);
 
