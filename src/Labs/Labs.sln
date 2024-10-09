@@ -25,9 +25,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCV-Camera-02-FPS", "Ope
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MEAI", "MEAI", "{F79ADDC0-A1A4-4C3A-90CD-D0982EA89A87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleOpenAI-04-VideoAnalyzer", "ConsoleOpenAI-04-VideoAnalyzer\ConsoleOpenAI-04-VideoAnalyzer.csproj", "{89920B27-DF53-47DC-8CC2-2C2299CEFF41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleOpenAI-04-VideoAnalyzer", "ConsoleOpenAI-04-VideoAnalyzer\ConsoleOpenAI-04-VideoAnalyzer.csproj", "{89920B27-DF53-47DC-8CC2-2C2299CEFF41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleMEAI-04-VideoAnalyzer", "ConsoleMEAI-04-VideoAnalyzer\ConsoleMEAI-04-VideoAnalyzer.csproj", "{705DA136-69E6-422B-90E3-38BD22C1B7FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleMEAI-04-VideoAnalyzer", "ConsoleMEAI-04-VideoAnalyzer\ConsoleMEAI-04-VideoAnalyzer.csproj", "{705DA136-69E6-422B-90E3-38BD22C1B7FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleMEAI-04-GitHubModels", "ConsoleMEAI-04-GitHubModels\ConsoleMEAI-04-GitHubModels.csproj", "{15ECD70E-A35E-491A-AFA1-0D99E489BF49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{705DA136-69E6-422B-90E3-38BD22C1B7FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{705DA136-69E6-422B-90E3-38BD22C1B7FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{705DA136-69E6-422B-90E3-38BD22C1B7FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15ECD70E-A35E-491A-AFA1-0D99E489BF49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15ECD70E-A35E-491A-AFA1-0D99E489BF49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15ECD70E-A35E-491A-AFA1-0D99E489BF49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15ECD70E-A35E-491A-AFA1-0D99E489BF49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +95,7 @@ Global
 		{DB61065B-4E62-4CF2-AAA6-444EDB1E6396} = {A38DDACB-0F12-4ADA-B9F4-50D83F5385A4}
 		{89920B27-DF53-47DC-8CC2-2C2299CEFF41} = {AB252C60-902A-4A10-B26B-669E40517CEA}
 		{705DA136-69E6-422B-90E3-38BD22C1B7FC} = {F79ADDC0-A1A4-4C3A-90CD-D0982EA89A87}
+		{15ECD70E-A35E-491A-AFA1-0D99E489BF49} = {F79ADDC0-A1A4-4C3A-90CD-D0982EA89A87}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {74C2B8BC-3EA8-4887-9C4D-BDF44232B449}
