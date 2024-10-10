@@ -4,28 +4,13 @@ using OpenAI;
 using Microsoft.Extensions.AI;
 
 
-//////////////////////////////////////////////////////
-/// VIDEO
-//////////////////////////////////////////////////////
-
-// main settings
-var numberOfFrames = 15;
-var systemPrompt = @"You are a useful assistant. When you receive a group of images, they are frames of a unique video.";
-
-var videoFileName = $"firetruck.mp4";
-var userPrompt = @"The following frames represets a video. Describe the video.";
-
-//var videoFileName = $"videos/insurance_v3.mp4";
-//var userPrompt = @"You are an expert in evaluating car damage from car accidents for auto insurance reporting. 
-//Create an incident report for the accident shown in the video with 3 sections. 
-//- Section 1 will include the car details (license plate, car make, car model, approximant model year, color, mileage).
-//- Section 2 list the car damage, per damage in a list.
-//- Section 3 will only include exactly 6 sentence description of the car damage.";
-
 // define video file and data folder
-string videosFolder = FindVideosFolder(Directory.GetCurrentDirectory());
-string videoFile = Path.Combine(videosFolder, videoFileName);
-string dataFolderPath = CreateDataFolder();
+string videoFile = VideosHelper.GetVideoFilePathFireTruck();
+string dataFolderPath = VideosHelper.CreateDataFolder();
+
+//////////////////////////////////////////////////////
+/// VIDEO ANALYSIS using OpenCV
+//////////////////////////////////////////////////////
 
 // Extract the frames from the video
 var video = new VideoCapture(videoFile);
@@ -45,7 +30,7 @@ while (video.IsOpened())
 video.Release();
 
 //////////////////////////////////////////////////////
-/// Microsoft.Extensions.AI
+/// Microsoft.Extensions.AI using OpenAI
 //////////////////////////////////////////////////////
 
 var config = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
@@ -57,12 +42,17 @@ IChatClient chatClient =
 
 List<ChatMessage> messages =
 [
-    new ChatMessage(ChatRole.System, systemPrompt),
-    new ChatMessage(ChatRole.User, userPrompt),
+    new ChatMessage(ChatRole.System, PromptsHelper.SystemPrompt),
+    new ChatMessage(ChatRole.User, PromptsHelper.UserPromptDescribeVideo),
 ];
 
 // create the OpenAI files that represent the video frames
-int step = (int)Math.Ceiling((double)frames.Count / numberOfFrames);
+int step = (int)Math.Ceiling((double)frames.Count / PromptsHelper.NumberOfFrames);
+
+// show in the console the total number of frames and the step that neeeds to be taken to get the desired number of frames for the video analysis
+Console.WriteLine($"Video total number of frames: {frames.Count}");
+Console.WriteLine($"Get 1 frame every [{step}] to get the [{PromptsHelper.NumberOfFrames}] frames for analysis");
+
 for (int i = 0; i < frames.Count; i += step)
 {
     // save the frame to the "data/frames" folder
@@ -78,43 +68,5 @@ for (int i = 0; i < frames.Count; i += step)
 // send the messages to the assistant
 var response = await chatClient.CompleteAsync(messages);
 
+Console.Write($"\n[OPEN AI CHAT ANALYSIS]: ");
 Console.WriteLine(response.Message);
-
-static string CreateDataFolder()
-{
-    // Create or clear the "data" folder and the "data/frames" folder
-    string dataFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "data");
-    if (Directory.Exists(dataFolderPath))
-    {
-        Directory.Delete(dataFolderPath, true);
-    }
-    Directory.CreateDirectory(dataFolderPath);
-    Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data/frames"));
-    return dataFolderPath;
-}
-
-static string FindVideosFolder(string startDirectory)
-{
-    var currentDirectory = startDirectory;
-
-    while (true)
-    {
-        // display the current directory
-        Console.WriteLine($"Current Directory: {currentDirectory}");
-
-        var potentialVideos = Path.Combine(currentDirectory, "videos");
-        if (Directory.Exists(potentialVideos))
-        {
-            return potentialVideos;
-        }
-
-        var parentDirectory = Directory.GetParent(currentDirectory);
-        Console.WriteLine($"Parent Directory: {currentDirectory}");
-        if (parentDirectory == null)
-        {
-            throw new DirectoryNotFoundException("The 'videos' folder was not found in any parent directory.");
-        }
-
-        currentDirectory = parentDirectory.FullName;
-    }
-}

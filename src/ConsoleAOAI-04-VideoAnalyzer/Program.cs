@@ -5,13 +5,13 @@ using System.ClientModel;
 using OpenAI.Chat;
 
 
-//////////////////////////////////////////////////////
-/// VIDEO
-//////////////////////////////////////////////////////
-
 // define video file and data folder
 string videoFile = VideosHelper.GetVideoFilePathFireTruck();
 string dataFolderPath = VideosHelper.CreateDataFolder();
+
+//////////////////////////////////////////////////////
+/// VIDEO ANALYSIS using OpenCV
+//////////////////////////////////////////////////////
 
 // Extract the frames from the video
 var video = new VideoCapture(videoFile);
@@ -80,7 +80,7 @@ for (int i = 0; i < frames.Count; i += step)
 AsyncCollectionResult<StreamingChatCompletionUpdate> completionUpdates = chatClient.CompleteChatStreamingAsync(messages);
 
 // print the assistant responses
-Console.Write($"\n[CHAT ANALYSIS]: ");
+Console.Write($"\n[AZURE OPEN AI CHAT ANALYSIS]: ");
 await foreach (StreamingChatCompletionUpdate completionUpdate in completionUpdates)
 {
     if (completionUpdate.ContentUpdate.Count > 0)

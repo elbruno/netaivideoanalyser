@@ -9,6 +9,11 @@
     <UserSecretsId>800acdcf-5cbd-4658-bc19-f2c3727a0f97</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Include="..\PromptsHelper.cs" Link="PromptsHelper.cs" />
+    <Compile Include="..\VideosHelper.cs" Link="VideosHelper.cs" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.AI" Version="9.0.0-preview.9.24507.7" />
 		<PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="9.0.0-preview.9.24507.7" />
