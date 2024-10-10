@@ -10,9 +10,9 @@ This repository contains a series of samples on how to analyse a video using mul
 
 - [Azure AI OpenAI library for .NET.](https://www.nuget.org/packages/Azure.AI.OpenAI) using **Azure OpenAI Services**
 - [Microsoft.Extensions.AI.OpenAI](https://www.nuget.org/packages/Microsoft.Extensions.AI.OpenAI) using **OpenAI APIs**
-- [Microsoft.Extensions.AI.AzureAIInference](https://www.nuget.org/packages/Microsoft.Extensions.AI.AzureAIInference) to work with **GitHub Models** 
+- [Microsoft.Extensions.AI.AzureAIInference](https://www.nuget.org/packages/Microsoft.Extensions.AI.AzureAIInference) to work with **GitHub Models**
 - [Microsoft.Extensions.AI.Ollama](https://www.nuget.org/packages/Microsoft.Extensions.AI.Ollama) to work with **Ollama** local models
-- [OpenAI .NET API library](https://www.nuget.org/packages/OpenAI) to work with **OpenAI APIs**. 
+- [OpenAI .NET API library](https://www.nuget.org/packages/OpenAI) to work with **OpenAI APIs**.
 
 **CodeSpaces:** This project is designed to be opened in GitHub Codespaces as an easy way for anyone to try out this libraries entirely in the browser.
 
@@ -22,7 +22,7 @@ This is the OpenAI sample running in Codespaces:
 
 ## Sample projects and references
 
-The sample projects are in the folder [/src/Labs/](/src/Labs/). 
+The sample projects are in the folder [/src/Labs/](/src/Labs/).
 
 Currently there are labs for:
 
@@ -42,11 +42,9 @@ Currently there are labs for:
 | `.\src\ConsoleMEAI-06-Ollama` | Console project  demonstrating the use of the [Microsoft.Extensions.AI.Ollama](https://www.nuget.org/packages/Microsoft.Extensions.AI.Ollama) to work with **Ollama** local models. This sample uses [Llava 7B](https://ollama.com/library/llava) for image analysis and [Phi 3.5](https://ollama.com/library/phi3.5) for Chat completion |
 | `.\src\ConsoleOpenAI-04-VideoAnalyzer` | Console project  demonstrating the use of the [OpenAI .NET API library](https://www.nuget.org/packages/OpenAI) to work with **OpenAI APIs**. |
 
-
-
 ## Run sample projects
 
-To run sample projects you must 1st define the user secrets to work with the project. 
+To run sample projects you must 1st define the user secrets to work with the project.
 
 ### Run OpenAI .NET Library samples
 
