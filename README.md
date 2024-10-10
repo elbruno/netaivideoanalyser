@@ -16,9 +16,13 @@ This repository contains a series of samples on how to analyse a video using mul
 
 **CodeSpaces:** This project is designed to be opened in GitHub Codespaces as an easy way for anyone to try out this libraries entirely in the browser.
 
-This is the OpenAI sample running in Codespaces:
+This is the OpenAI sample running in Codespaces. The sample analyze this video:
 
-![This is the OpenAI sample running in Codespaces:](./images/05RunSampleCodespaces.png)
+![Firetruck leaving the firestation video](./images/02FireTruck.gif)
+
+And return this output:
+
+![This is the OpenAI sample running in Codespaces](./images/05RunSampleCodespaces.png)
 
 ## Sample projects and references
 
@@ -128,6 +132,10 @@ dotnet run
 - You can expect an output similar to this one:
 
 ![Run Sample using MEAI and GitHub Models](./images/15GHModelsRunSample.png)
+
+### Run Ollama sample
+
+**Instructions Coming soon!**
 
 ## Author
 
