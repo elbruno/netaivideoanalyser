@@ -39,7 +39,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Event", "Event", "{018B0B29
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleMEAI-05-GitHubModels", "ConsoleMEAI-05-GitHubModels\ConsoleMEAI-05-GitHubModels.csproj", "{DD3313B8-C63A-4E09-B8DA-2F538EAB39AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCV-Camera-06-VideoSaveFrames", "OpenCV-Camera-06-VideoSaveFrames\OpenCV-Camera-06-VideoSaveFrames.csproj", "{4EF2E09E-4ED8-4380-9DCA-8D311B135A2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenCV-Camera-06-VideoSaveFrames", "OpenCV-Camera-06-VideoSaveFrames\OpenCV-Camera-06-VideoSaveFrames.csproj", "{4EF2E09E-4ED8-4380-9DCA-8D311B135A2B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure OpenAI", "Azure OpenAI", "{B1AF5FED-91D9-4DFC-A1C1-6EFA8F60D16F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAOAI-04-VideoAnalyzer", "ConsoleAOAI-04-VideoAnalyzer\ConsoleAOAI-04-VideoAnalyzer.csproj", "{5CE7E35E-E368-4BD0-B2D8-E19CA9F9334E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B0EB1ECB-7FD1-4E5D-933E-6FFEE5DF2D08}"
+	ProjectSection(SolutionItems) = preProject
+		PromptsHelper.cs = PromptsHelper.cs
+		VideosHelper.cs = VideosHelper.cs
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -103,6 +113,10 @@ Global
 		{4EF2E09E-4ED8-4380-9DCA-8D311B135A2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EF2E09E-4ED8-4380-9DCA-8D311B135A2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EF2E09E-4ED8-4380-9DCA-8D311B135A2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CE7E35E-E368-4BD0-B2D8-E19CA9F9334E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CE7E35E-E368-4BD0-B2D8-E19CA9F9334E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CE7E35E-E368-4BD0-B2D8-E19CA9F9334E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CE7E35E-E368-4BD0-B2D8-E19CA9F9334E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +136,7 @@ Global
 		{A1FA0598-0480-42DA-8B33-A219B6F60382} = {A38DDACB-0F12-4ADA-B9F4-50D83F5385A4}
 		{DD3313B8-C63A-4E09-B8DA-2F538EAB39AE} = {F79ADDC0-A1A4-4C3A-90CD-D0982EA89A87}
 		{4EF2E09E-4ED8-4380-9DCA-8D311B135A2B} = {A38DDACB-0F12-4ADA-B9F4-50D83F5385A4}
+		{5CE7E35E-E368-4BD0-B2D8-E19CA9F9334E} = {B1AF5FED-91D9-4DFC-A1C1-6EFA8F60D16F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {74C2B8BC-3EA8-4887-9C4D-BDF44232B449}

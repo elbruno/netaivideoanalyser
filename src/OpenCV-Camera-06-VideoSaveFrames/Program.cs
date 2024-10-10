@@ -1,19 +1,13 @@
 ﻿using OpenCvSharp;
 
-var videoFileName = $"firetruck.mp4";
-
-// Create or clear the "data" folder and the "data/frames" folder
-string dataFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "data");
-if (Directory.Exists(dataFolderPath))
-{
-    Directory.Delete(dataFolderPath, true);
-}
-Directory.CreateDirectory(dataFolderPath);
-Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data/frames"));
 
 // video file
+var videoFileName = $"firetruck.mp4";
 string videosFolder = FindVideosFolder(Directory.GetCurrentDirectory());
 string videoFile = Path.Combine(videosFolder, videoFileName);
+
+// create the data folder to store video frames
+string dataFolderPath = CreateDataFolder();
 
 // print the video file location
 Console.WriteLine($"Video File: {videoFile}");
@@ -46,6 +40,18 @@ while (true)
     Console.WriteLine($"Saving frame FileName: {frameFileName}");
 }
 
+static string CreateDataFolder()
+{
+    // Create or clear the "data" folder and the "data/frames" folder
+    string dataFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "data");
+    if (Directory.Exists(dataFolderPath))
+    {
+        Directory.Delete(dataFolderPath, true);
+    }
+    Directory.CreateDirectory(dataFolderPath);
+    Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data/frames"));
+    return dataFolderPath;
+}
 
 static string FindVideosFolder(string startDirectory)
 {

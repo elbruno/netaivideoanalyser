@@ -25,17 +25,10 @@ var userPrompt = @"The following frames represets a video. Describe the video.";
 //- Section 3 will only include exactly 6 sentence description of the car damage.";
 
 
-// Create or clear the "data" folder and the "data/frames" folder
-string dataFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "data");
-if (Directory.Exists(dataFolderPath))
-{
-    Directory.Delete(dataFolderPath, true);
-}
-Directory.CreateDirectory(dataFolderPath);
-Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data/frames"));
-
-// video file
-string videoFile = Path.Combine(Directory.GetCurrentDirectory(), videoFileName);
+// define video file and data folder
+string videosFolder = FindVideosFolder(Directory.GetCurrentDirectory());
+string videoFile = Path.Combine(videosFolder, videoFileName);
+string dataFolderPath = CreateDataFolder();
 
 // Extract the frames from the video
 var video = new VideoCapture(videoFile);
@@ -91,3 +84,42 @@ for (int i = 0; i < frames.Count; i += step)
 var response = await chatClient.CompleteAsync(messages);
 
 Console.WriteLine(response.Message);
+
+static string CreateDataFolder()
+{
+    // Create or clear the "data" folder and the "data/frames" folder
+    string dataFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "data");
+    if (Directory.Exists(dataFolderPath))
+    {
+        Directory.Delete(dataFolderPath, true);
+    }
+    Directory.CreateDirectory(dataFolderPath);
+    Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data/frames"));
+    return dataFolderPath;
+}
+
+static string FindVideosFolder(string startDirectory)
+{
+    var currentDirectory = startDirectory;
+
+    while (true)
+    {
+        // display the current directory
+        Console.WriteLine($"Current Directory: {currentDirectory}");
+
+        var potentialVideos = Path.Combine(currentDirectory, "videos");
+        if (Directory.Exists(potentialVideos))
+        {
+            return potentialVideos;
+        }
+
+        var parentDirectory = Directory.GetParent(currentDirectory);
+        Console.WriteLine($"Parent Directory: {currentDirectory}");
+        if (parentDirectory == null)
+        {
+            throw new DirectoryNotFoundException("The 'videos' folder was not found in any parent directory.");
+        }
+
+        currentDirectory = parentDirectory.FullName;
+    }
+}
