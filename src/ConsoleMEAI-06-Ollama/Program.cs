@@ -1,19 +1,13 @@
 ﻿using OpenCvSharp;
 using Microsoft.Extensions.AI;
 
-//////////////////////////////////////////////////////
-/// VIDEO
-//////////////////////////////////////////////////////
-
-// main settings
-var numberOfFrames = 5;
-
-var videoFileName = $"videos/firetruck.mp4";
-
 // define video file and data folder
-string videosFolder = FindVideosFolder(Directory.GetCurrentDirectory());
-string videoFile = Path.Combine(videosFolder, videoFileName);
-string dataFolderPath = CreateDataFolder();
+string videoFile = VideosHelper.GetVideoFilePathFireTruck();
+string dataFolderPath = VideosHelper.CreateDataFolder();
+
+//////////////////////////////////////////////////////
+/// VIDEO ANALYSIS using OpenCV
+//////////////////////////////////////////////////////
 
 // Extract the frames from the video
 var video = new VideoCapture(videoFile);
@@ -30,7 +24,7 @@ while (video.IsOpened())
 video.Release();
 
 //////////////////////////////////////////////////////
-/// Microsoft.Extensions.AI
+/// Microsoft.Extensions.AI using Ollama
 //////////////////////////////////////////////////////
 
 
@@ -41,12 +35,16 @@ IChatClient chatClient =
 
 Console.WriteLine("====================================================");
 Console.WriteLine("Start frame by frame analysis");
-Console.WriteLine("Number of frames: " + frames.Count);
 Console.WriteLine("====================================================");
 Console.WriteLine("");
 
 List<string> imageAnalysisResponses = new();
-int step = (int)Math.Ceiling((double)frames.Count / numberOfFrames);
+int step = (int)Math.Ceiling((double)frames.Count / PromptsHelper.NumberOfFrames);
+
+// show in the console the total number of frames and the step that neeeds to be taken to get the desired number of frames for the video analysis
+Console.WriteLine($"Video total number of frames: {frames.Count}");
+Console.WriteLine($"Get 1 frame every [{step}] to get the [{PromptsHelper.NumberOfFrames}] frames for analysis");
+
 for (int i = 0; i < frames.Count; i += step)
 {
     // save the frame to the "data/frames" folder
@@ -75,7 +73,7 @@ The fire truck is now seen moving out of the station and onto the street. The ba
     var imageAnalysisResponse = $"{imageAnalysis.Message.Text}\n";
     imageAnalysisResponses.Add(imageAnalysisResponse);
 
-    Console.WriteLine(imageAnalysisResponse);
+    Console.WriteLine($"Frame: {i}\n{imageAnalysisResponse}");
 }
 
 Console.WriteLine("====================================================");
@@ -86,10 +84,10 @@ var imageAnalysisResponseCollection = string.Empty;
 
 foreach (var desc in imageAnalysisResponses)
 {
-    imageAnalysisResponseCollection += $"\n[FRAME ANALYSIS START]\n{desc}\n[FRAME ANALYSIS END]\n";
+    imageAnalysisResponseCollection += $"\n[FRAME ANALYSIS START]{desc}[FRAME ANALYSIS END]";
 }
 
-var userPrompt = $"The texts below represets a video analysis from different frames from the video. Using that frames description, describe the video. Do not describe individual frames, using the frames information infer the content of the video.\n{imageAnalysisResponseCollection}";
+var userPrompt = $"The texts below represets a video analysis from different frames from the video. Using that frames description, describe the video. Do not describe individual frames. Do not mention the frame number of frame description. Using the frames information infer the content of the video.\n{imageAnalysisResponseCollection}";
 
 // display the full user prompt 
 Console.WriteLine(userPrompt);
@@ -100,48 +98,8 @@ Console.WriteLine("Start video analysis");
 Console.WriteLine("====================================================");
 Console.WriteLine("");
 
-Console.WriteLine("ASSISTANT: ");
 // send the messages to the assistant
 var response = await chatClient.CompleteAsync(userPrompt);
-
+Console.WriteLine("MEAI Chat Client using Ollama Response: ");
 Console.WriteLine(response.Message);
 
-
-static string CreateDataFolder()
-{
-    // Create or clear the "data" folder and the "data/frames" folder
-    string dataFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "data");
-    if (Directory.Exists(dataFolderPath))
-    {
-        Directory.Delete(dataFolderPath, true);
-    }
-    Directory.CreateDirectory(dataFolderPath);
-    Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data/frames"));
-    return dataFolderPath;
-}
-
-static string FindVideosFolder(string startDirectory)
-{
-    var currentDirectory = startDirectory;
-
-    while (true)
-    {
-        // display the current directory
-        Console.WriteLine($"Current Directory: {currentDirectory}");
-
-        var potentialVideos = Path.Combine(currentDirectory, "videos");
-        if (Directory.Exists(potentialVideos))
-        {
-            return potentialVideos;
-        }
-
-        var parentDirectory = Directory.GetParent(currentDirectory);
-        Console.WriteLine($"Parent Directory: {currentDirectory}");
-        if (parentDirectory == null)
-        {
-            throw new DirectoryNotFoundException("The 'videos' folder was not found in any parent directory.");
-        }
-
-        currentDirectory = parentDirectory.FullName;
-    }
-}

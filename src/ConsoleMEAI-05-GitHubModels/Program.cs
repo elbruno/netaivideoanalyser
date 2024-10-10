@@ -69,44 +69,5 @@ for (int i = 0; i < frames.Count; i += step)
 
 // send the messages to the assistant
 var response = await chatClient.CompleteAsync(messages);
-
+Console.WriteLine("MEAI Chat Client using GitHub Models Response: ");
 Console.WriteLine(response.Message);
-
-static string CreateDataFolder()
-{
-    // Create or clear the "data" folder and the "data/frames" folder
-    string dataFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "data");
-    if (Directory.Exists(dataFolderPath))
-    {
-        Directory.Delete(dataFolderPath, true);
-    }
-    Directory.CreateDirectory(dataFolderPath);
-    Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "data/frames"));
-    return dataFolderPath;
-}
-
-static string FindVideosFolder(string startDirectory)
-{
-    var currentDirectory = startDirectory;
-
-    while (true)
-    {
-        // display the current directory
-        Console.WriteLine($"Current Directory: {currentDirectory}");
-
-        var potentialVideos = Path.Combine(currentDirectory, "videos");
-        if (Directory.Exists(potentialVideos))
-        {
-            return potentialVideos;
-        }
-
-        var parentDirectory = Directory.GetParent(currentDirectory);
-        Console.WriteLine($"Parent Directory: {currentDirectory}");
-        if (parentDirectory == null)
-        {
-            throw new DirectoryNotFoundException("The 'videos' folder was not found in any parent directory.");
-        }
-
-        currentDirectory = parentDirectory.FullName;
-    }
-}
