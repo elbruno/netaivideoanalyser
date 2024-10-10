@@ -69,5 +69,5 @@ for (int i = 0; i < frames.Count; i += step)
 
 // send the messages to the assistant
 var response = await chatClient.CompleteAsync(messages);
-Console.WriteLine("MEAI Chat Client using GitHub Models Response: ");
+Console.WriteLine($"\n[GitHub Models response using Microsoft Extensions for AI]: ");
 Console.WriteLine(response.Message);

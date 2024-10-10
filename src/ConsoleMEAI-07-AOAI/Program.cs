@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using OpenCvSharp;
-using OpenAI;
+using Azure.AI.OpenAI;
+using System.ClientModel;
 using Microsoft.Extensions.AI;
+using System;
 
 
 // define video file and data folder
@@ -30,21 +32,27 @@ while (video.IsOpened())
 video.Release();
 
 //////////////////////////////////////////////////////
-/// Microsoft.Extensions.AI using OpenAI
+/// Azure OpenAI
 //////////////////////////////////////////////////////
 
 var config = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
-var openai_key = config["OPENAI_KEY"];
+var endpoint = config["AZURE_OPENAI_ENDPOINT"];
+var modelId = config["AZURE_OPENAI_MODEL"];
 
-IChatClient chatClient = 
-    new OpenAIClient(apiKey: openai_key)
-    .AsChatClient("gpt-4o-mini");
+// create client using API Keys
+var apiKey = config["AZURE_OPENAI_APIKEY"];
+var credential = new ApiKeyCredential(apiKey);
+
+IChatClient chatClient =
+    new AzureOpenAIClient(new Uri(endpoint),credential)
+            .AsChatClient(modelId: modelId);
 
 List<ChatMessage> messages =
 [
     new ChatMessage(ChatRole.System, PromptsHelper.SystemPrompt),
     new ChatMessage(ChatRole.User, PromptsHelper.UserPromptDescribeVideo),
 ];
+
 
 // create the OpenAI files that represent the video frames
 int step = (int)Math.Ceiling((double)frames.Count / PromptsHelper.NumberOfFrames);
@@ -65,8 +73,15 @@ for (int i = 0; i < frames.Count; i += step)
     messages.Add(message);
 }
 
-// send the messages to the assistant
-var response = await chatClient.CompleteAsync(messages);
+// send the messages to the chat client
+var completionUpdates = chatClient.CompleteStreamingAsync(chatMessages: messages);
 
-Console.WriteLine($"\n[OpenAI APIs response using Microsoft Extensions for AI]: ");
-Console.WriteLine(response.Message);
+// print the assistant responses
+Console.WriteLine($"\n[Azure OpenAI Services response using Microsoft Extensions for AI]: ");
+await foreach (var completionUpdate in completionUpdates)
+{
+    if (completionUpdate.Contents.Count > 0)
+    {
+        Console.Write(completionUpdate.Contents[0]);
+    }
+}

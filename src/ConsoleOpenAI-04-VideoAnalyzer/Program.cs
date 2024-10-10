@@ -72,7 +72,7 @@ for (int i = 0; i < frames.Count; i += step)
 AsyncCollectionResult<StreamingChatCompletionUpdate> completionUpdates = chatClient.CompleteChatStreamingAsync(messages);
 
 // print the assistant responses
-Console.Write($"[Chat Response using OpenAI]: ");
+Console.WriteLine($"[Chat Response using OpenAI .NET Library]: ");
 await foreach (StreamingChatCompletionUpdate completionUpdate in completionUpdates)
 {
     if (completionUpdate.ContentUpdate.Count > 0)
