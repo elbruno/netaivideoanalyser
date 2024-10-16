@@ -139,6 +139,10 @@ dotnet run
 
 **Instructions Coming soon!**
 
+## Video Recordings
+
+[![.NET AI Community Standup - Build a Video Analyzer with OpenAI .NET Library’s Stable Release](./images/35netaishow.png)](https://www.youtube.com/live/vQr5N2E_6AM?si=Kmtq0QGNVp4OgFMZ)
+
 ## Author
 
 👤 **Bruno Capuano**
