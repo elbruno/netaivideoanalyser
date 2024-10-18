@@ -2,16 +2,19 @@
 using Microsoft.Extensions.AI;
 using Spectre.Console;
 
+SpectreConsoleOutput.DisplayTitle("MEAI - OLLAMA");
+
 // define video file and data folder
-SpectreConsoleOutput.DisplayTitleH2("Video file and data folder");
+SpectreConsoleOutput.DisplayTitleH1("Video file and data folder");
 string videoFile = VideosHelper.GetVideoFilePathFireTruck();
 string dataFolderPath = VideosHelper.CreateDataFolder();
+Console.WriteLine();
 
 //////////////////////////////////////////////////////
 /// VIDEO ANALYSIS using OpenCV
 //////////////////////////////////////////////////////
 
-SpectreConsoleOutput.DisplayTitleH2("Video Analysis using OpenCV");
+SpectreConsoleOutput.DisplayTitleH1("Video Analysis using OpenCV");
 
 // Extract the frames from the video
 var video = new VideoCapture(videoFile);
@@ -32,7 +35,7 @@ SpectreConsoleOutput.DisplayTitleH3("Video Analysis using OpenCV done!");
 //////////////////////////////////////////////////////
 /// Microsoft.Extensions.AI using Ollama
 //////////////////////////////////////////////////////
-SpectreConsoleOutput.DisplayTitleH2("Video Analysis using Microsoft.Extensions.AI using Ollama");
+SpectreConsoleOutput.DisplayTitleH1("Video Analysis using Microsoft.Extensions.AI using Ollama");
 
 IChatClient chatClientImageAnalyzer =
     new OllamaChatClient(new Uri("http://localhost:11434/"), "llava:7b");

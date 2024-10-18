@@ -7,6 +7,16 @@ public static class SpectreConsoleOutput
         AnsiConsole.Write(new FigletText(title).Centered().Color(Color.Purple));
     }
 
+    public static void DisplayTitleH1(string subtitle)
+    {
+        // create a line using the lenght of the subtitle text, and for each caracter use the "="
+        var line = new string('=', subtitle.Length);
+
+        AnsiConsole.MarkupLine($"[bold][green]===={line}====[/][/]");
+        AnsiConsole.MarkupLine($"[bold][green]=== {subtitle} ===[/][/]");
+        AnsiConsole.MarkupLine($"");
+    }
+
     public static void DisplayTitleH2(string subtitle)
     {
         AnsiConsole.MarkupLine($"[bold][blue]=== {subtitle} ===[/][/]");
