@@ -4,13 +4,20 @@ using Microsoft.Extensions.AI;
 using Azure.AI.Inference;
 using Azure;
 
+SpectreConsoleOutput.DisplayTitle("MEAI - GH Models");
+
 // define video file and data folder
+SpectreConsoleOutput.DisplayTitleH1("Video file and data folder");
 string videoFile = VideosHelper.GetVideoFilePathFireTruck();
 string dataFolderPath = VideosHelper.CreateDataFolder();
+Console.WriteLine();
+
 
 //////////////////////////////////////////////////////
 /// VIDEO ANALYSIS using OpenCV
 //////////////////////////////////////////////////////
+
+SpectreConsoleOutput.DisplayTitleH1("Video Analysis using OpenCV");
 
 // Extract the frames from the video
 var video = new VideoCapture(videoFile);
@@ -28,6 +35,9 @@ while (video.IsOpened())
     frames.Add(frame);
 }
 video.Release();
+SpectreConsoleOutput.DisplaySubtitle("Total Frames", frames.Count.ToString());
+SpectreConsoleOutput.DisplayTitleH3("Video Analysis using OpenCV done!");
+
 
 //////////////////////////////////////////////////////
 /// Microsoft.Extensions.AI using GitHub Models
