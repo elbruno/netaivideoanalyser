@@ -4,6 +4,16 @@
 public static class VideosHelper
 {
     /// <summary>
+    /// Gets the file path for the racoon video.
+    /// </summary>
+    /// <returns>The file path of the racoon video.</returns>
+    public static string GetVideoFilePathRacoon()
+    {
+        var videoFileName = $"racoon.mp4";
+        return GetVideoFilePath(videoFileName);
+    }
+
+    /// <summary>
     /// Gets the file path for the firetruck video.
     /// </summary>
     /// <returns>The file path of the firetruck video.</returns>
