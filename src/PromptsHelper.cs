@@ -6,7 +6,7 @@ public static class PromptsHelper
     /// <summary>
     /// Defines the number of frames that the model will analyze.
     /// </summary>
-    public static int NumberOfFrames = 10;
+    public static int NumberOfFrames = 15;
 
     /// <summary>
     /// The system prompt for the assistant.
@@ -22,8 +22,17 @@ public static class PromptsHelper
     /// The user prompt to create an incident report for car damage analysis.
     /// </summary>
     public static string UserPromptInsuranceCarAnalysis = @"You are an expert in evaluating car damage from car accidents for auto insurance reporting. 
-    Create an incident report for the accident shown in the video with 3 sections. 
-    - Section 1 will include the car details (license plate, car make, car model, approximate model year, color, mileage).
-    - Section 2 list the car damage, per damage in a list.
-    - Section 3 will only include exactly 6 sentence description of the car damage.";
+Create an incident report for the accident shown in the video with 3 sections. 
+- Section 1 will include the car details (license plate, car make, car model, approximate model year, color, mileage).
+- Section 2 list the car damage, per damage in a list.
+- Section 3 will only include exactly 6 sentence description of the car damage.";
+
+    /// <summary>
+    /// The user prompt to create an incident report for car damage analysis and return a JSON object.
+    /// </summary>
+    public static string UserPromptInsuranceCarAnalysisJson = @"You are an expert in evaluating car damage from car accidents for auto insurance reporting. 
+Create an incident report for the accident shown in the video with 3 sections in JSON format. 
+- Section 1 will include the car details (license plate, car make, car model, approximate model year, color, mileage).
+- Section 2 list the car damage, per damage in a list.
+- Section 3 will only include exactly 6 sentence description of the car damage.";
 }

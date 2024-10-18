@@ -4,17 +4,18 @@ using Microsoft.Extensions.AI;
 using Spectre.Console;
 using Azure.AI.OpenAI;
 using System.ClientModel;
+using System.Text.Json;
 
 SpectreConsoleOutput.DisplayTitle("MEAI - AOAI");
 
 // define video file and data folder
 SpectreConsoleOutput.DisplayTitleH1("Video file and data folder");
-string videoFile = VideosHelper.GetVideoFilePathFireTruck();
+string videoFile = VideosHelper.GetVideoFilePathCar();
 string dataFolderPath = VideosHelper.CreateDataFolder();
 Console.WriteLine();
 
 var systemPrompt = PromptsHelper.SystemPrompt;
-var userPrompt = PromptsHelper.UserPromptDescribeVideo;
+var userPrompt = PromptsHelper.UserPromptInsuranceCarAnalysis;
 
 //////////////////////////////////////////////////////
 /// VIDEO ANALYSIS using OpenCV
@@ -106,6 +107,7 @@ SpectreConsoleOutput.DisplayTitleH1("Chat Client Response");
 
 
 // send the messages to the assistant
+var completeResponse = "";
 var response = chatClient.CompleteStreamingAsync(messages);
 
 // display the response
@@ -114,7 +116,41 @@ SpectreConsoleOutput.DisplayTitleH3("Azure OpenAI response using Microsoft Exten
 await foreach (var message in response)
 {
     if (message.Contents.Count > 0)
-        AnsiConsole.Write(message.Contents[0].ToString());
+    {
+        AnsiConsole.Write(new Text(message.Contents[0].ToString()));
+        completeResponse += message.Contents[0].ToString();
+    }
+}
+
+// validate if the complete response is a json object
+if (IsValidJson(completeResponse))
+{
+    AnsiConsole.Write(
+    new Panel(completeResponse)
+        .Header("Response")
+        .Collapse()
+        .RoundedBorder()
+        .BorderColor(Color.Yellow));
 }
 
 SpectreConsoleOutput.DisplayTitleH3("Video Analysis done!");
+
+static bool IsValidJson(string jsonString)
+{
+    if (string.IsNullOrWhiteSpace(jsonString))
+    {
+        return false;
+    }
+
+    try
+    {
+        using (JsonDocument doc = JsonDocument.Parse(jsonString))
+        {
+            return true;
+        }
+    }
+    catch (JsonException)
+    {
+        return false;
+    }
+}
