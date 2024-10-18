@@ -80,26 +80,16 @@ public static class SpectreConsoleOutput
         return response;
     }
 
-    public static List<string> SelectScenarios()
+    public static void DisplayTablePrompts(string systemPrompt, string userPrompt)
     {
-        // Ask for the user's favorite fruits
-        var scenarios = AnsiConsole.Prompt(
-            new MultiSelectionPrompt<string>()
-                .Title("Select the [green]Phi 3 Vision scenarios[/] to run?")
-                .PageSize(10)
-                .Required(true)
-                .MoreChoicesText("[grey](Move up and down to reveal more scenarios)[/]")
-                .InstructionsText(
-                    "[grey](Press [blue]<space>[/] to toggle a scenario, " +
-                    "[green]<enter>[/] to accept)[/]")
-                .AddChoiceGroup("Select an image to be analuyzed", new[]
-                    {"foggyday.png","foggydaysmall.png","petsmusic.png","ultrarunningmug.png",
-                    })
-                .AddChoices( new[] { 
-                    "Type the image path to be analyzed",
-                    "Type a question"
-                    })
-                );
-        return scenarios;
+        DisplayTitleH1("Prompts used");
+
+        var tablePrompts = new Table();
+        tablePrompts.AddColumn("Type");
+        tablePrompts.AddColumn("Content");
+        tablePrompts.AddRow(new Text("System Prompt"), new Text(systemPrompt));
+        tablePrompts.AddEmptyRow();
+        tablePrompts.AddRow(new Text("User Prompt"), new Text(userPrompt));
+        AnsiConsole.Write(tablePrompts);
     }
 }

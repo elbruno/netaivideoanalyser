@@ -4,8 +4,11 @@ using Microsoft.Extensions.AI;
 using Azure.AI.Inference;
 using Azure;
 using Spectre.Console;
+using System;
+using Azure.AI.OpenAI;
+using System.ClientModel;
 
-SpectreConsoleOutput.DisplayTitle("MEAI - GH Models");
+SpectreConsoleOutput.DisplayTitle("MEAI - AOAI");
 
 // define video file and data folder
 SpectreConsoleOutput.DisplayTitleH1("Video file and data folder");
@@ -41,18 +44,21 @@ SpectreConsoleOutput.DisplayTitleH3("Video Analysis using OpenCV done!");
 
 
 //////////////////////////////////////////////////////
-/// Microsoft.Extensions.AI using GitHub Models
+/// Microsoft.Extensions.AI using Azure OpenAI
 //////////////////////////////////////////////////////
 
-SpectreConsoleOutput.DisplayTitleH1("Video Analysis using Microsoft.Extensions.AI using GitHub Models");
+SpectreConsoleOutput.DisplayTitleH1("Video Analysis using Microsoft.Extensions.AI using Azure OpenAI");
 var config = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
-var github_token = config["GITHUB_TOKEN"];
+var endpoint = config["AZURE_OPENAI_ENDPOINT"];
+var modelId = config["AZURE_OPENAI_MODEL"];
+
+// create client using API Keys
+var apiKey = config["AZURE_OPENAI_APIKEY"];
+var credential = new ApiKeyCredential(apiKey);
 
 IChatClient chatClient =
-    new ChatCompletionsClient(
-        endpoint: new Uri("https://models.inference.ai.azure.com"),
-        new AzureKeyCredential(github_token))
-        .AsChatClient("gpt-4o-mini");
+    new AzureOpenAIClient(new Uri(endpoint), credential)
+            .AsChatClient(modelId: modelId);
 
 List<ChatMessage> messages =
 [
@@ -94,12 +100,7 @@ await AnsiConsole.Live(tableImageAnalysis)
         ctx.Refresh();
     });
 
-// display prompts
-SpectreConsoleOutput.DisplayTablePrompts(PromptsHelper.SystemPrompt, PromptsHelper.UserPromptDescribeVideo);
-
-SpectreConsoleOutput.DisplayTitleH1("Chat Client Response");
-
-// send the messages to the chat client
+// send the messages to the assistant
 var response = chatClient.CompleteStreamingAsync(messages);
 
 // display the response
@@ -107,7 +108,7 @@ SpectreConsoleOutput.DisplayTitleH3("GitHub Models response using Microsoft Exte
 
 await foreach (var message in response)
 {
-    if(message.Contents.Count > 0)
+    if (message.Contents.Count > 0)
         AnsiConsole.Write(message.Contents[0].ToString());
 }
 

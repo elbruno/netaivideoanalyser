@@ -59,6 +59,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpectreConsole-MEAI-01-Olla
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpectreConsole-MEAI-02-GHModels", "SpectreConsole-MEAI-02-GHModels\SpectreConsole-MEAI-02-GHModels.csproj", "{6E4F0558-0F63-4B69-A8AC-14C5A5F15AB3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpectreConsole-MEAI-03-AOAI", "SpectreConsole-MEAI-03-AOAI\SpectreConsole-MEAI-03-AOAI.csproj", "{BC876294-94E9-4C1B-A62D-F3607FC8012E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +139,10 @@ Global
 		{6E4F0558-0F63-4B69-A8AC-14C5A5F15AB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E4F0558-0F63-4B69-A8AC-14C5A5F15AB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E4F0558-0F63-4B69-A8AC-14C5A5F15AB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC876294-94E9-4C1B-A62D-F3607FC8012E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC876294-94E9-4C1B-A62D-F3607FC8012E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC876294-94E9-4C1B-A62D-F3607FC8012E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC876294-94E9-4C1B-A62D-F3607FC8012E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -160,6 +166,7 @@ Global
 		{14BAA889-A322-4B3C-BD76-3A46ED2B8D0A} = {F79ADDC0-A1A4-4C3A-90CD-D0982EA89A87}
 		{95D69DC5-0D23-4D8B-A4A7-1EB065374267} = {77B1D900-84D7-4751-B43C-BB82B4397E0E}
 		{6E4F0558-0F63-4B69-A8AC-14C5A5F15AB3} = {77B1D900-84D7-4751-B43C-BB82B4397E0E}
+		{BC876294-94E9-4C1B-A62D-F3607FC8012E} = {77B1D900-84D7-4751-B43C-BB82B4397E0E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {74C2B8BC-3EA8-4887-9C4D-BDF44232B449}
