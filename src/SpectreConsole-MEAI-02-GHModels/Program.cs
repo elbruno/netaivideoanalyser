@@ -3,6 +3,7 @@ using OpenCvSharp;
 using Microsoft.Extensions.AI;
 using Azure.AI.Inference;
 using Azure;
+using Spectre.Console;
 
 SpectreConsoleOutput.DisplayTitle("MEAI - GH Models");
 
@@ -43,6 +44,7 @@ SpectreConsoleOutput.DisplayTitleH3("Video Analysis using OpenCV done!");
 /// Microsoft.Extensions.AI using GitHub Models
 //////////////////////////////////////////////////////
 
+SpectreConsoleOutput.DisplayTitleH1("Video Analysis using Microsoft.Extensions.AI using GitHub Models");
 var config = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
 var github_token = config["GITHUB_TOKEN"];
 
@@ -61,23 +63,48 @@ List<ChatMessage> messages =
 // create the OpenAI files that represent the video frames
 int step = (int)Math.Ceiling((double)frames.Count / PromptsHelper.NumberOfFrames);
 
-// show in the console the total number of frames and the step that neeeds to be taken to get the desired number of frames for the video analysis
-Console.WriteLine($"Video total number of frames: {frames.Count}");
-Console.WriteLine($"Get 1 frame every [{step}] to get the [{PromptsHelper.NumberOfFrames}] frames for analysis");
+// show the total number of frames and the step to get the desired number of frames using spectre console
+SpectreConsoleOutput.DisplaySubtitle("Process", $"Get 1 frame every [{step}] to get the [{PromptsHelper.NumberOfFrames}] frames for analysis");
 
-for (int i = 0; i < frames.Count; i += step)
-{
-    // save the frame to the "data/frames" folder
-    string framePath = Path.Combine(dataFolderPath, "frames", $"{i}.jpg");
-    Cv2.ImWrite(framePath, frames[i]);
+var tableImageAnalysis = new Table();
+await AnsiConsole.Live(tableImageAnalysis)
+    .AutoClear(false)   // Do not remove when done
+    .Overflow(VerticalOverflow.Ellipsis) // Show ellipsis when overflowing
+    .StartAsync(async ctx =>
+    {
+        tableImageAnalysis.AddColumn("N#");
+        tableImageAnalysis.AddColumn("Location");
+        ctx.Refresh();
 
-    // read the image bytes, create a new image content part and add it to the messages
-    AIContent aic = new ImageContent(File.ReadAllBytes(framePath), "image/jpeg");
-    var message = new ChatMessage(Microsoft.Extensions.AI.ChatRole.User, [aic]);
-    messages.Add(message);
-}
+        for (int i = 0; i < frames.Count; i += step)
+        {
+            // save the frame to the "data/frames" folder
+            string framePath = Path.Combine(dataFolderPath, "frames", $"{i}.jpg");
+            Cv2.ImWrite(framePath, frames[i]);
+
+            // read the image bytes, create a new image content part and add it to the messages
+            AIContent aic = new ImageContent(File.ReadAllBytes(framePath), "image/jpeg");
+            var message = new ChatMessage(Microsoft.Extensions.AI.ChatRole.User, [aic]);
+            messages.Add(message);
+
+            // add row
+            tableImageAnalysis.AddRow(new Text(i.ToString()), new TextPath(framePath));
+            ctx.Refresh();
+        }
+        ctx.Refresh();
+    });
 
 // send the messages to the assistant
-var response = await chatClient.CompleteAsync(messages);
-Console.WriteLine($"\n[GitHub Models response using Microsoft Extensions for AI]: ");
-Console.WriteLine(response.Message);
+var response = chatClient.CompleteStreamingAsync(messages);
+
+// display the response
+SpectreConsoleOutput.DisplayTitleH3("GitHub Models response using Microsoft Extensions for AI");
+
+await foreach (var message in response)
+{
+    if(message.Contents.Count > 0)
+        AnsiConsole.Write(message.Contents[0].ToString());
+}
+
+//Console.WriteLine($"\n[GitHub Models response using Microsoft Extensions for AI]: ");
+//Console.WriteLine(response.Message);

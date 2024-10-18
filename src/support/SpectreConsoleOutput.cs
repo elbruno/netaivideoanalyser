@@ -14,6 +14,7 @@ public static class SpectreConsoleOutput
 
         AnsiConsole.MarkupLine($"[bold][green]===={line}====[/][/]");
         AnsiConsole.MarkupLine($"[bold][green]=== {subtitle} ===[/][/]");
+        AnsiConsole.MarkupLine($"[bold][green]===={line}====[/][/]");
         AnsiConsole.MarkupLine($"");
     }
 
