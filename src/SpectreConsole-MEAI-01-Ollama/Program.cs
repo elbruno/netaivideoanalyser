@@ -109,10 +109,15 @@ var userPrompt = $"The texts below represets a video analysis from different fra
 //// display the full user prompt 
 //Console.WriteLine(userPrompt);
 //Console.WriteLine("");
+
 SpectreConsoleOutput.DisplayTitleH3("Start build prompt done!");
+
 
 SpectreConsoleOutput.DisplayTitleH2("Start video analysis using LLM");
 
 // send the messages to the assistant
 var response = await chatClient.CompleteAsync(userPrompt);
-SpectreConsoleOutput.DisplaySubtitle("MEAI Chat Client using Ollama Response: ", response.Message.ToString());
+
+var panelResponse = new Panel(response.Message.ToString());
+panelResponse.Header = new PanelHeader("MEAI Chat Client using Ollama Response");
+AnsiConsole.Write(panelResponse);
