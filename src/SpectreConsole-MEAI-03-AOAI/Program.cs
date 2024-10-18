@@ -1,10 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using OpenCvSharp;
 using Microsoft.Extensions.AI;
-using Azure.AI.Inference;
-using Azure;
 using Spectre.Console;
-using System;
 using Azure.AI.OpenAI;
 using System.ClientModel;
 
@@ -16,6 +13,8 @@ string videoFile = VideosHelper.GetVideoFilePathFireTruck();
 string dataFolderPath = VideosHelper.CreateDataFolder();
 Console.WriteLine();
 
+var systemPrompt = PromptsHelper.SystemPrompt;
+var userPrompt = PromptsHelper.UserPromptDescribeVideo;
 
 //////////////////////////////////////////////////////
 /// VIDEO ANALYSIS using OpenCV
@@ -62,8 +61,8 @@ IChatClient chatClient =
 
 List<ChatMessage> messages =
 [
-    new ChatMessage(Microsoft.Extensions.AI.ChatRole.System, PromptsHelper.SystemPrompt),
-    new ChatMessage(Microsoft.Extensions.AI.ChatRole.User, PromptsHelper.UserPromptDescribeVideo),
+    new ChatMessage(Microsoft.Extensions.AI.ChatRole.System, systemPrompt),
+    new ChatMessage(Microsoft.Extensions.AI.ChatRole.User, userPrompt),
 ];
 
 // create the OpenAI files that represent the video frames
@@ -100,11 +99,17 @@ await AnsiConsole.Live(tableImageAnalysis)
         ctx.Refresh();
     });
 
+// display prompts
+SpectreConsoleOutput.DisplayTablePrompts(systemPrompt, userPrompt);
+
+SpectreConsoleOutput.DisplayTitleH1("Chat Client Response");
+
+
 // send the messages to the assistant
 var response = chatClient.CompleteStreamingAsync(messages);
 
 // display the response
-SpectreConsoleOutput.DisplayTitleH3("GitHub Models response using Microsoft Extensions for AI");
+SpectreConsoleOutput.DisplayTitleH3("Azure OpenAI response using Microsoft Extensions for AI");
 
 await foreach (var message in response)
 {
@@ -112,5 +117,4 @@ await foreach (var message in response)
         AnsiConsole.Write(message.Contents[0].ToString());
 }
 
-//Console.WriteLine($"\n[GitHub Models response using Microsoft Extensions for AI]: ");
-//Console.WriteLine(response.Message);
+SpectreConsoleOutput.DisplayTitleH3("Video Analysis done!");

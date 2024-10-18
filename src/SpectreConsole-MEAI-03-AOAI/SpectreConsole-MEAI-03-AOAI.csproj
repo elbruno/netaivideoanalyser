@@ -6,6 +6,7 @@
     <RootNamespace>SpectreConsole_MEAI_03_AOAI</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>df073c5a-8c3a-4308-af57-f82543dd2fd9</UserSecretsId>
   </PropertyGroup>
 
 	<ItemGroup>

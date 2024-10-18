@@ -13,6 +13,8 @@ string videoFile = VideosHelper.GetVideoFilePathFireTruck();
 string dataFolderPath = VideosHelper.CreateDataFolder();
 Console.WriteLine();
 
+var systemPrompt = PromptsHelper.SystemPrompt;
+var userPrompt = PromptsHelper.UserPromptDescribeVideo;
 
 //////////////////////////////////////////////////////
 /// VIDEO ANALYSIS using OpenCV
@@ -56,8 +58,8 @@ IChatClient chatClient =
 
 List<ChatMessage> messages =
 [
-    new ChatMessage(Microsoft.Extensions.AI.ChatRole.System, PromptsHelper.SystemPrompt),
-    new ChatMessage(Microsoft.Extensions.AI.ChatRole.User, PromptsHelper.UserPromptDescribeVideo),
+    new ChatMessage(Microsoft.Extensions.AI.ChatRole.System, systemPrompt),
+    new ChatMessage(Microsoft.Extensions.AI.ChatRole.User, userPrompt),
 ];
 
 // create the OpenAI files that represent the video frames
@@ -95,7 +97,7 @@ await AnsiConsole.Live(tableImageAnalysis)
     });
 
 // display prompts
-SpectreConsoleOutput.DisplayTablePrompts(PromptsHelper.SystemPrompt, PromptsHelper.UserPromptDescribeVideo);
+SpectreConsoleOutput.DisplayTablePrompts(systemPrompt, userPrompt);
 
 SpectreConsoleOutput.DisplayTitleH1("Chat Client Response");
 
