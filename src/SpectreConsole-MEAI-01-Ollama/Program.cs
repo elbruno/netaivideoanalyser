@@ -1,6 +1,7 @@
 ﻿using OpenCvSharp;
 using Microsoft.Extensions.AI;
 using Spectre.Console;
+using System.Diagnostics;
 
 SpectreConsoleOutput.DisplayTitle("MEAI - OLLAMA");
 
@@ -37,10 +38,15 @@ SpectreConsoleOutput.DisplayTitleH3("Video Analysis using OpenCV done!");
 //////////////////////////////////////////////////////
 SpectreConsoleOutput.DisplayTitleH1("Video Analysis using Microsoft.Extensions.AI using Ollama");
 
+//IChatClient chatClientImageAnalyzer =
+//    new OllamaChatClient(new Uri("http://localhost:11434/"), "llava:7b");
+//IChatClient chatClient =
+//    new OllamaChatClient(new Uri("http://localhost:11434/"), "llama3.2");
+
 IChatClient chatClientImageAnalyzer =
-    new OllamaChatClient(new Uri("http://localhost:11434/"), "llava:7b");
+    new OllamaChatClient(new Uri("http://localhost:11434/"), "llava:34b");
 IChatClient chatClient =
-    new OllamaChatClient(new Uri("http://localhost:11434/"), "llama3.2");
+    new OllamaChatClient(new Uri("http://localhost:11434/"), "phi3.5");
 
 List<string> imageAnalysisResponses = new();
 int step = (int)Math.Ceiling((double)frames.Count / PromptsHelper.NumberOfFrames);
@@ -55,8 +61,11 @@ await AnsiConsole.Live(tableImageAnalysis)
     .StartAsync(async ctx =>
     {
         tableImageAnalysis.AddColumn("N#");
+        tableImageAnalysis.AddColumn("Elapsed");
         tableImageAnalysis.AddColumn("Description");
         ctx.Refresh();
+
+        var stopwatch = new Stopwatch();
 
         for (int i = 0; i < frames.Count; i += step)
         {
@@ -81,14 +90,17 @@ Frame Number: 2
 The fire truck is now seen moving out of the station and onto the street. The background features a tall black building and additional urban elements, including traffic signs and trees."),
         new ChatMessage(ChatRole.User, [aic])
              ];
-            // send the messages to the assistant
+            // send the messages to the assistant            
+            stopwatch.Restart();
             var imageAnalysis = await chatClientImageAnalyzer.CompleteAsync(messages);
             var imageAnalysisResponse = $"{imageAnalysis.Message.Text}\n";
             imageAnalysisResponses.Add(imageAnalysisResponse);
+            stopwatch.Stop();
+            var elapsedTime = stopwatch.Elapsed;
             
             // add row
             var shortResponse = imageAnalysisResponse.Length > 100 ? imageAnalysisResponse.Substring(0, 100) + "..." : imageAnalysisResponse;
-            tableImageAnalysis.AddRow(new Text(i.ToString()), new Text(shortResponse));
+            tableImageAnalysis.AddRow(new Text(i.ToString()), new Text(elapsedTime.ToString("ss\\.fff")), new Text(shortResponse));
             ctx.Refresh();
         }
         ctx.Refresh();
