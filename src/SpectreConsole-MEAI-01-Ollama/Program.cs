@@ -73,17 +73,17 @@ await AnsiConsole.Live(tableImageAnalysis)
             AIContent aic = new ImageContent(File.ReadAllBytes(framePath), "image/jpeg");
             List<ChatMessage> messages =
             [
-                new ChatMessage(ChatRole.User, @$"The image represents a frame of a video. Describe the image in a single sentence. Frame Number: [{i}]
-
+                new ChatMessage(ChatRole.User, @$"The image represents a frame of a video. Describe the image in a single sentence for the frame Number: [{i}]
 In example:
-Frame Number: 0
-A view of a fire station with red garage doors. The sidewalk is empty, and there are yellow posts in front of the garage doors. Surrounding buildings are visible in the background, along with a clear blue sky.
-
-Frame Number: 1
-The same fire station is shown, but now a fire truck is partially visible, parked in front of the garage doors. The scene retains the same urban backdrop, with nearby buildings and trees.
-
-Frame Number: 2
-The fire truck is now seen moving out of the station and onto the street. The background features a tall black building and additional urban elements, including traffic signs and trees."),
+[IMAGE DESCRIPTION START]
+Frame 1: A view of a fire station with red garage doors. The sidewalk is empty, and there are yellow posts in front of the garage doors. Surrounding buildings are visible in the background, along with a clear blue sky.
+[IMAGE DESCRIPTION END]
+[IMAGE DESCRIPTION START]
+Frame 2: The same fire station is shown, but now a fire truck is partially visible, parked in front of the garage doors. The scene retains the same urban backdrop, with nearby buildings and trees.
+[IMAGE DESCRIPTION END]
+[IMAGE DESCRIPTION START]
+Frame 3: The fire truck is now seen moving out of the station and onto the street. The background features a tall black building and additional urban elements, including traffic signs and trees.
+[IMAGE DESCRIPTION END]"),
         new ChatMessage(ChatRole.User, [aic])
              ];
             // send the messages to the assistant            
@@ -112,7 +112,7 @@ foreach (var desc in imageAnalysisResponses)
     imageAnalysisResponseCollection += $"\n[FRAME ANALYSIS START]{desc}[FRAME ANALYSIS END]";
 }
 
-var userPrompt = $"The texts below represets a video analysis from different frames from the video. Using that frames description, describe the video. Do not describe individual frames. Do not mention the frame number of frame description. Using the frames information infer the content of the video.\n{imageAnalysisResponseCollection}";
+var userPrompt = $"The texts below represets a video analysis from different frames from the video. Using the frames description, describe the video. Do not describe individual frames. Do not mention the frame number of frame description. Using the frames information infer the content and the story of the video.\n{imageAnalysisResponseCollection}";
 
 //// display the full user prompt 
 //Console.WriteLine(userPrompt);

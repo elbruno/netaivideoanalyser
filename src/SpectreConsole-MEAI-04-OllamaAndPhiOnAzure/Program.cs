@@ -2,7 +2,9 @@
 using Microsoft.Extensions.AI;
 using Spectre.Console;
 using System.Diagnostics;
-using System;
+using Microsoft.Extensions.Configuration;
+using Azure;
+using Azure.AI.Inference;
 
 SpectreConsoleOutput.DisplayTitle("OLLAMA & Phi3.5V");
 
@@ -37,12 +39,27 @@ SpectreConsoleOutput.DisplayTitleH3("Video Analysis using OpenCV done!");
 //////////////////////////////////////////////////////
 /// Microsoft.Extensions.AI using Ollama
 //////////////////////////////////////////////////////
-SpectreConsoleOutput.DisplayTitleH1("Video Analysis using Microsoft.Extensions.AI using Ollama");
+SpectreConsoleOutput.DisplayTitleH1("Video Analysis using Phi-3.5 in Azure");
 
-IChatClient chatClientImageAnalyzer =
-    new OllamaChatClient(new Uri("http://localhost:11434/"), "llava:7b");
-IChatClient chatClient =
-    new OllamaChatClient(new Uri("http://localhost:11434/"), "llama3.2");
+var config = new ConfigurationBuilder().AddUserSecrets<Program>().Build();
+var endpointVision = config["AZURE_PHI35V_URI"];
+var modelIdVision = config["AZURE_PHI35V_MODEL"];
+var apiKeyVision = config["AZURE_PHI35V_KEY"];
+var endpointChat = config["AZURE_PHI35_URI"];
+var modelIdChat = config["AZURE_PHI35_MODEL"];
+var apiKeyChat = config["AZURE_PHI35_KEY"];
+
+
+var credentialVision = new AzureKeyCredential(apiKeyVision);
+IChatClient chatClientImageAnalyzer = new ChatCompletionsClient(
+        endpoint: new Uri(endpointVision), 
+        credential: credentialVision).AsChatClient(modelIdVision);
+
+var credentialChat = new AzureKeyCredential(apiKeyChat);
+IChatClient chatClient = new ChatCompletionsClient(
+        endpoint: new Uri(endpointChat),
+        credential: credentialChat).AsChatClient(modelIdChat);
+
 
 
 List<string> imageAnalysisResponses = new();
@@ -74,18 +91,18 @@ await AnsiConsole.Live(tableImageAnalysis)
             AIContent aic = new ImageContent(File.ReadAllBytes(framePath), "image/jpeg");
             List<ChatMessage> messages =
             [
-                new ChatMessage(ChatRole.User, @$"The image represents a frame of a video. Describe the image in a single sentence. Frame Number: [{i}]
-
+                new ChatMessage(Microsoft.Extensions.AI.ChatRole.User, @$"The image represents a frame of a video. Describe the image in a single sentence for the frame Number: [{i}]
 In example:
-Frame Number: 0
-A view of a fire station with red garage doors. The sidewalk is empty, and there are yellow posts in front of the garage doors. Surrounding buildings are visible in the background, along with a clear blue sky.
-
-Frame Number: 1
-The same fire station is shown, but now a fire truck is partially visible, parked in front of the garage doors. The scene retains the same urban backdrop, with nearby buildings and trees.
-
-Frame Number: 2
-The fire truck is now seen moving out of the station and onto the street. The background features a tall black building and additional urban elements, including traffic signs and trees."),
-        new ChatMessage(ChatRole.User, [aic])
+[IMAGE DESCRIPTION START]
+Frame 1: A view of a fire station with red garage doors. The sidewalk is empty, and there are yellow posts in front of the garage doors. Surrounding buildings are visible in the background, along with a clear blue sky.
+[IMAGE DESCRIPTION END]
+[IMAGE DESCRIPTION START]
+Frame 2: The same fire station is shown, but now a fire truck is partially visible, parked in front of the garage doors. The scene retains the same urban backdrop, with nearby buildings and trees.
+[IMAGE DESCRIPTION END]
+[IMAGE DESCRIPTION START]
+Frame 3: The fire truck is now seen moving out of the station and onto the street. The background features a tall black building and additional urban elements, including traffic signs and trees.
+[IMAGE DESCRIPTION END]"),
+        new ChatMessage(Microsoft.Extensions.AI.ChatRole.User, [aic])
              ];
             // send the messages to the assistant            
             stopwatch.Restart();
@@ -103,7 +120,7 @@ The fire truck is now seen moving out of the station and onto the street. The ba
         ctx.Refresh();
     });
 
-SpectreConsoleOutput.DisplayTitleH3("Frame by frame Analysis using llava models done!");
+SpectreConsoleOutput.DisplayTitleH3("Frame by frame Analysis using Phi-3.5 Vision model done!");
 
 SpectreConsoleOutput.DisplayTitleH2("Start build prompt");
 var imageAnalysisResponseCollection = string.Empty;
@@ -113,14 +130,9 @@ foreach (var desc in imageAnalysisResponses)
     imageAnalysisResponseCollection += $"\n[FRAME ANALYSIS START]{desc}[FRAME ANALYSIS END]";
 }
 
-var userPrompt = $"The texts below represets a video analysis from different frames from the video. Using that frames description, describe the video. Do not describe individual frames. Do not mention the frame number of frame description. Using the frames information infer the content of the video.\n{imageAnalysisResponseCollection}";
-
-//// display the full user prompt 
-//Console.WriteLine(userPrompt);
-//Console.WriteLine("");
+var userPrompt = $"The texts below represets a video analysis from different frames from the video. Using the frames description, describe the video. Do not describe individual frames. Do not mention the frame number of frame description. Using the frames information infer the content and the story of the video.\n{imageAnalysisResponseCollection}";
 
 SpectreConsoleOutput.DisplayTitleH3("Start build prompt done!");
-
 
 SpectreConsoleOutput.DisplayTitleH2("Start video analysis using LLM");
 
@@ -128,5 +140,5 @@ SpectreConsoleOutput.DisplayTitleH2("Start video analysis using LLM");
 var response = await chatClient.CompleteAsync(userPrompt);
 
 var panelResponse = new Panel(response.Message.ToString());
-panelResponse.Header = new PanelHeader("MEAI Chat Client using Ollama Response");
+panelResponse.Header = new PanelHeader("MEAI Chat Client using Phi-3.5 in Azure Response");
 AnsiConsole.Write(panelResponse);
