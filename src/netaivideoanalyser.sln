@@ -57,9 +57,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Spectre Console Video Analy
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpectreConsole-MEAI-01-Ollama", "SpectreConsole-MEAI-01-Ollama\SpectreConsole-MEAI-01-Ollama.csproj", "{95D69DC5-0D23-4D8B-A4A7-1EB065374267}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpectreConsole-MEAI-02-GHModels", "SpectreConsole-MEAI-02-GHModels\SpectreConsole-MEAI-02-GHModels.csproj", "{6E4F0558-0F63-4B69-A8AC-14C5A5F15AB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpectreConsole-MEAI-02-GHModels", "SpectreConsole-MEAI-02-GHModels\SpectreConsole-MEAI-02-GHModels.csproj", "{6E4F0558-0F63-4B69-A8AC-14C5A5F15AB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpectreConsole-MEAI-03-AOAI", "SpectreConsole-MEAI-03-AOAI\SpectreConsole-MEAI-03-AOAI.csproj", "{BC876294-94E9-4C1B-A62D-F3607FC8012E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpectreConsole-MEAI-03-AOAI", "SpectreConsole-MEAI-03-AOAI\SpectreConsole-MEAI-03-AOAI.csproj", "{BC876294-94E9-4C1B-A62D-F3607FC8012E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpectreConsole-MEAI-04-OllamaAndPhiOnAzure", "SpectreConsole-MEAI-04-OllamaAndPhiOnAzure\SpectreConsole-MEAI-04-OllamaAndPhiOnAzure.csproj", "{D7E0D241-220E-4E07-AC97-560920F4A0DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,6 +145,10 @@ Global
 		{BC876294-94E9-4C1B-A62D-F3607FC8012E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC876294-94E9-4C1B-A62D-F3607FC8012E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC876294-94E9-4C1B-A62D-F3607FC8012E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7E0D241-220E-4E07-AC97-560920F4A0DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7E0D241-220E-4E07-AC97-560920F4A0DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7E0D241-220E-4E07-AC97-560920F4A0DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7E0D241-220E-4E07-AC97-560920F4A0DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -167,6 +173,7 @@ Global
 		{95D69DC5-0D23-4D8B-A4A7-1EB065374267} = {77B1D900-84D7-4751-B43C-BB82B4397E0E}
 		{6E4F0558-0F63-4B69-A8AC-14C5A5F15AB3} = {77B1D900-84D7-4751-B43C-BB82B4397E0E}
 		{BC876294-94E9-4C1B-A62D-F3607FC8012E} = {77B1D900-84D7-4751-B43C-BB82B4397E0E}
+		{D7E0D241-220E-4E07-AC97-560920F4A0DF} = {77B1D900-84D7-4751-B43C-BB82B4397E0E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {74C2B8BC-3EA8-4887-9C4D-BDF44232B449}
