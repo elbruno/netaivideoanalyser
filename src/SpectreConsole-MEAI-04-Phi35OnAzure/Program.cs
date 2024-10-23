@@ -10,9 +10,12 @@ SpectreConsoleOutput.DisplayTitle("OLLAMA & Phi3.5V");
 
 // define video file and data folder
 SpectreConsoleOutput.DisplayTitleH1("Video file and data folder");
-string videoFile = VideosHelper.GetVideoFilePathFireTruck();
+string videoFile = VideosHelper.GetVideoFilePathCar();
 string dataFolderPath = VideosHelper.CreateDataFolder();
 Console.WriteLine();
+
+var systemPrompt = PromptsHelper.SystemPrompt;
+var userPrompt = PromptsHelper.UserPromptInsuranceCarAnalysis;
 
 //////////////////////////////////////////////////////
 /// VIDEO ANALYSIS using OpenCV
@@ -91,17 +94,7 @@ await AnsiConsole.Live(tableImageAnalysis)
             AIContent aic = new ImageContent(File.ReadAllBytes(framePath), "image/jpeg");
             List<ChatMessage> messages =
             [
-                new ChatMessage(Microsoft.Extensions.AI.ChatRole.User, @$"The image represents a frame of a video. Describe the image in a single sentence for the frame Number: [{i}]
-In example:
-[IMAGE DESCRIPTION START]
-Frame 1: A view of a fire station with red garage doors. The sidewalk is empty, and there are yellow posts in front of the garage doors. Surrounding buildings are visible in the background, along with a clear blue sky.
-[IMAGE DESCRIPTION END]
-[IMAGE DESCRIPTION START]
-Frame 2: The same fire station is shown, but now a fire truck is partially visible, parked in front of the garage doors. The scene retains the same urban backdrop, with nearby buildings and trees.
-[IMAGE DESCRIPTION END]
-[IMAGE DESCRIPTION START]
-Frame 3: The fire truck is now seen moving out of the station and onto the street. The background features a tall black building and additional urban elements, including traffic signs and trees.
-[IMAGE DESCRIPTION END]"),
+                new ChatMessage(Microsoft.Extensions.AI.ChatRole.User, @$"The image represents a frame of a video. Describe the image in a single paragraph, including all the car reference details, i for the frame Number: [{i}]. If there is car information like license number, milleage, color, make, model, year, etc., include it in the paragraph. Also include and details car damage if present in the analyzed image."),
         new ChatMessage(Microsoft.Extensions.AI.ChatRole.User, [aic])
              ];
             // send the messages to the assistant            
@@ -130,14 +123,12 @@ foreach (var desc in imageAnalysisResponses)
     imageAnalysisResponseCollection += $"\n[FRAME ANALYSIS START]{desc}[FRAME ANALYSIS END]";
 }
 
-var userPrompt = $"The texts below represets a video analysis from different frames from the video. Using the frames description, describe the video. Do not describe individual frames. Do not mention the frame number of frame description. Using the frames information infer the content and the story of the video.\n{imageAnalysisResponseCollection}";
-
 SpectreConsoleOutput.DisplayTitleH3("Start build prompt done!");
 
 SpectreConsoleOutput.DisplayTitleH2("Start video analysis using LLM");
 
 // send the messages to the assistant
-var response = await chatClient.CompleteAsync(userPrompt);
+var response = await chatClient.CompleteAsync($"{userPrompt}\n{imageAnalysisResponseCollection}");
 
 var panelResponse = new Panel(response.Message.ToString());
 panelResponse.Header = new PanelHeader("MEAI Chat Client using Phi-3.5 in Azure Response");
